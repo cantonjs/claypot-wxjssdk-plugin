@@ -1,4 +1,4 @@
-import { ensureLogger, createApp } from 'claypot';
+import { createApp } from 'claypot';
 import JsSHA from 'jssha';
 import invariant from 'invariant';
 import tap from './tap';
@@ -65,12 +65,10 @@ export default class WxjssdkClaypotPlugin {
 		const fetchToken = async (ctx, next) => {
 			const { path } = ctx.request;
 
-			const validPath = isFunction(pathName) ? pathName(ctx) : pathName;
-
-			if (path !== validPath) {
-				await next();
-				return;
-			}
+			// if (path !== validPath) {
+			// 	await next();
+			// 	return;
+			// }
 
 			try {
 				const timestamp = now();
@@ -106,14 +104,14 @@ export default class WxjssdkClaypotPlugin {
 
 		this._pathName = pathName;
 		this._fetchToken = fetchToken;
-
 	}
 
 	middleware(parent) {
 		const { _pathName } = this;
-
 		const app = createApp();
+
 		app.use(async (ctx, next) => {
+
 			const res = await this._fetchToken(ctx, next);
 			ctx.body = res;
 		});

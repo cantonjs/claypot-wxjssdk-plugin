@@ -8,17 +8,10 @@ const host = '127.0.0.1';
 
 export const origin = `http://${host}:${port}`;
 
-export const createCtx = (ctx) => ({
-	request: { path: '/api/jssdk' },
-	query: { url: 'http://awesome.com' },
-	status: 200,
-	...ctx,
-});
-
-export const createConfig = (orign, config) => ({
+export const createConfig = (config) => ({
 	appId: 'asdf',
-	tokenURL: `${origin}/token`,
-	ticketURL: `${origin}/getticket`,
+	tokenURL: `${origin}/api/wxjssdk/token`,
+	ticketURL: `${origin}/api/wxjssdk/getticket`,
 	...config,
 });
 
@@ -54,9 +47,7 @@ export async function startServer(pluginConfig, claypotConfig) {
 		...claypotConfig,
 	});
 	return {
-		port,
 		urlRoot,
-		origin,
 	};
 }
 
